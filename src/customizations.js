@@ -40,12 +40,17 @@ export async function applyLayers(options, cacheDir) {
   await applyDependencyTemplate(cacheDir, options);
 
   if (options.addon) {
-    await copy(path.join(cacheDir, 'tests'), path.join(localFiles, 'tests'));
+    await copy(path.join(localFiles, 'config'), path.join(cacheDir, 'config'));
+    await copy(path.join(localFiles, 'tests'), path.join(cacheDir, 'tests'));
+    await copyFile(
+      path.join(path.join(localFiles, 'ember-cli-build.js')),
+      path.join(cacheDir, 'ember-cli-build')
+    );
   } else {
     // Apply local files last
     // these are allowed to overwrite anything the templates
     // brought in
-    await copy(cacheDir, localFiles);
+    await copy(localFiles, cacheDir);
 
     // Merge the local package.json, if it exists, because we want to be able
     // to override things that could be in a template package.json
@@ -89,7 +94,7 @@ async function applyLocalTemplate(cacheDir, options) {
   // relative to options' directory?
   let absolute = path.join(options.projectRoot, options.template);
 
-  await copy(cacheDir, absolute);
+  await copy(absolute, cacheDir);
   await mergePackageJson(cacheDir, absolute);
 }
 
@@ -164,12 +169,23 @@ async function applyDependencyTemplate(cacheDir, options) {
 }
 
 /**
- * @param {string} cacheDir
  * @param {string} sourceDir
+ * @param {string} cacheDir
  */
-async function copy(cacheDir, sourceDir) {
+async function copy(sourceDir, cacheDir) {
   fse.copySync(sourceDir, cacheDir, {
     overwrite: true,
     filter: (src) => !src.endsWith('package.json'),
   });
+}
+
+/**
+ *
+ * @param {string} source
+ * @param {string} destination
+ */
+async function copyFile(source, destination) {
+  if (await fse.pathExists(source)) {
+    await fse.copyFile(source, destination);
+  }
 }

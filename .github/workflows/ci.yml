@@ -35,19 +35,6 @@ jobs:
       - name: ESLint
         run: pnpm lint
 
-  types_tests:
-    name: "Types: Tests"
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    needs: [install_dependencies]
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/pnpm
-      - run: tsc --build --clean && tsc --build
-        continue-on-error: true
-        working-directory: tests
-
   tests:
     name: "Tests"
     runs-on: ubuntu-latest
