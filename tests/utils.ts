@@ -19,13 +19,20 @@ interface DirOrFixture {
   args?: string[];
   onTestPackage?: string;
   cmd?: 'test' | 'serve' | 'try:one' | 'try:each';
+  prepare?: (tmpDir: string) => void | Promise<void>;
 }
 
 const VERBOSE = yn(process.env['VERBOSE']);
 
+export async function overrideFile(overridePath: string, targetPath: string) {
+  let overrideFolder = path.join(__dirname, 'override-files');
+
+  await fs.cp(path.join(overrideFolder, overridePath), targetPath, { recursive: true });
+}
+
 export async function run(
   cmd: NonNullable<DirOrFixture['cmd']>,
-  { cwd, onFixture, onTestPackage, args }: DirOrFixture
+  { cwd, prepare, onFixture, onTestPackage, args }: DirOrFixture
 ) {
   if (onTestPackage) {
     let originDirectory = path.join(testPackagesFolder, onTestPackage);
@@ -38,6 +45,10 @@ export async function run(
           `In ${workingDirectory}\n` +
           `Copied from ${originDirectory}`
       );
+    }
+
+    if (prepare) {
+      await prepare(workingDirectory);
     }
 
     return execa('node', [binPath, cmd, ...(args || [])], {

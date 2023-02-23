@@ -1,5 +1,6 @@
 # template files
 files/
+override-files/
 
 # compiled output
 dist/
