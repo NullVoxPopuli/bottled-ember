@@ -74,6 +74,7 @@ importers:
   test-packages/addon-with-ember-try-ts:
     specifiers:
       '@babel/core': ^7.21.0
+      '@ember/string': ^3.0.1
       '@ember/test-helpers': ^2.9.3
       '@embroider/addon-shim': ^1.0.0
       '@glimmer/component': ^1.1.2
@@ -85,6 +86,7 @@ importers:
       '@types/qunit': ^2.19.4
       '@types/rsvp': ^4.0.4
       ember-qunit: ^6.1.1
+      ember-resolver: ^10.0.0
       ember-source: ^4.11.0
       ember-template-imports: ^3.4.1
       qunit: ^2.19.4
@@ -94,6 +96,7 @@ importers:
       '@embroider/addon-shim': 1.8.4
     devDependencies:
       '@babel/core': 7.21.0
+      '@ember/string': 3.0.1
       '@ember/test-helpers': 2.9.3_xofn2vvucy6ydscs5n5hjhl7qq
       '@glimmer/component': 1.1.2_@babel+core@7.21.0
       '@glint/core': 1.0.0-beta.3_typescript@4.9.5
@@ -104,6 +107,7 @@ importers:
       '@types/qunit': 2.19.4
       '@types/rsvp': 4.0.4
       ember-qunit: 6.1.1_mlvvsdrlpjgn6f7knzknzqohwa
+      ember-resolver: 10.0.0_kzwsaxkqup2inborfmd55uo3na
       ember-source: 4.11.0_tjijq7ea5h6eehcyhwtwl5ia5m
       ember-template-imports: 3.4.1
       qunit: 2.19.4
@@ -1579,6 +1583,15 @@ packages:
 
   /@ember/edition-utils/1.2.0:
     resolution: {integrity: sha512-VmVq/8saCaPdesQmftPqbFtxJWrzxNGSQ+e8x8LLe3Hjm36pJ04Q8LeORGZkAeOhldoUX9seLGmSaHeXkIqoog==}
+    dev: true
+
+  /@ember/string/3.0.1:
+    resolution: {integrity: sha512-ntnmXS+upOWVXE+rVw2l03DjdMnaGdWbYVUxUBuPJqnIGZu2XFRsoXc7E6mOw62s8i1Xh1RgTuFHN41QGIolEQ==}
+    engines: {node: 12.* || 14.* || >= 16}
+    dependencies:
+      ember-cli-babel: 7.26.11
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@ember/test-helpers/2.9.3_xofn2vvucy6ydscs5n5hjhl7qq:
@@ -4639,6 +4652,23 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - webpack
+    dev: true
+
+  /ember-resolver/10.0.0_kzwsaxkqup2inborfmd55uo3na:
+    resolution: {integrity: sha512-e99wFJ4ZpleJ6JMEcIk4WEYP4s3nc+9/iNSXtwBHXC8ADJHJTeN3HjnT/eEbFbswdui4FYxIYuK+UCdP09811Q==}
+    engines: {node: 14.* || 16.* || >= 18}
+    peerDependencies:
+      '@ember/string': ^3.0.1
+      ember-source: ^4.8.3
+    peerDependenciesMeta:
+      ember-source:
+        optional: true
+    dependencies:
+      '@ember/string': 3.0.1
+      ember-cli-babel: 7.26.11
+      ember-source: 4.11.0_tjijq7ea5h6eehcyhwtwl5ia5m
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /ember-rfc176-data/0.3.18:

@@ -1,8 +1,18 @@
 {
   "extends": "@tsconfig/ember/tsconfig.json",
+  "compilerOptions": {
+    // Because the v2 addon is already compiled
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@nullvoxpopuli/addon-with-ember-try-ts": ["./src"],
+      "@nullvoxpopuli/addon-with-ember-try-ts/*": ["./src/*"]
+    },
+  },
   "include": [
     "src/**/*",
-    "unpublished-development-types/**/*"
+    "unpublished-development-types/**/*",
+    "tests/**/*"
   ],
   "glint": {
     "environment": [

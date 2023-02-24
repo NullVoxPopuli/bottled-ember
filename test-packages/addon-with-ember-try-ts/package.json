@@ -35,8 +35,10 @@
       ]
     }
   },
+  "types": "./src/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.21.0",
+    "@ember/string": "^3.0.1",
     "@ember/test-helpers": "^2.9.3",
     "@glimmer/component": "^1.1.2",
     "@glint/core": "^1.0.0-beta.3",
@@ -47,6 +49,7 @@
     "@types/qunit": "^2.19.4",
     "@types/rsvp": "^4.0.4",
     "ember-qunit": "^6.1.1",
+    "ember-resolver": "^10.0.0",
     "ember-source": "^4.11.0",
     "ember-template-imports": "^3.4.1",
     "qunit": "^2.19.4",
