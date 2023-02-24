@@ -1,5 +1,19 @@
 # buttered-ember
 
+## 0.5.0
+
+### Minor Changes
+
+- [#12](https://github.com/NullVoxPopuli/buttered-ember/pull/12) [`c941f63`](https://github.com/NullVoxPopuli/buttered-ember/commit/c941f6354f0b9a4fc26afdb8d1c99052c3cd9c2d) Thanks [@NullVoxPopuli](https://github.com/NullVoxPopuli)! - The `--addon` flag now supports typescript projects.
+
+  The buttered-ember test suite has a demo project that has
+
+  - typescript intellisense
+  - gjs/gts in tests
+
+  To set this up yourself, any types you want available in the editor
+  must be available in devDependencies of your addon.
+
 ## 0.4.0
 
 ### Minor Changes
