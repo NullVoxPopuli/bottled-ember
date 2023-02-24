@@ -1,46 +1,41 @@
-import { describe, expect, it } from 'vitest';
+import path from 'node:path';
 
-import { findEmberTry, run } from './utils.js';
+import { describe, it } from 'vitest';
+
+import { expectNoErrorWithin, findEmberTry, overrideFile, run } from './utils.js';
 
 let fixtures = await findEmberTry();
 
 describe('Addon mode', () => {
   for (let fixture of fixtures) {
-    it(`${fixture} try:each`, async () => {
-      let { stderr, stdout } = await run('try:each', {
+    it(`${fixture} try:each`, async ({ expect }) => {
+      let { exitCode, stderr, stdout } = await run('try:each', {
         onTestPackage: fixture,
-        args: ['--addon', '--cacheName', 'try-each'],
+        args: ['--addon', '--cacheName', `${fixture}--try-each`],
+        prepare: async (workingDirectory) => {
+          await overrideFile('ember-try.js', path.join(workingDirectory, 'config'));
+        },
       });
 
       stdout ||= (stderr as any).stdout;
 
-      if (stderr) {
-        console.error(stderr);
-      }
+      expectNoErrorWithin(expect, stderr);
 
-      expect(stdout).toContain('Scenario ember-3.28: SUCCESS');
-      expect(stdout).toContain('Scenario ember-4.0: SUCCESS');
-      expect(stdout).toContain('Scenario ember-4.4: SUCCESS');
+      expect(exitCode).toBe(0);
       expect(stdout).toContain('Scenario ember-4.8: SUCCESS');
       expect(stdout).toContain('Scenario ember-release: SUCCESS');
-      expect(stdout).toContain('Scenario ember-beta: SUCCESS');
-      expect(stdout).toContain('Scenario ember-canary: FAIL');
-      expect(stdout).toContain('Scenario ember-release + embroider-safe: SUCCESS');
       expect(stdout).toContain('Scenario ember-release + embroider-optimized: SUCCESS');
-      expect(stdout).toContain('Scenario ember-lts-4.8 + embroider-optimized: SUCCESS');
     });
 
-    it(`${fixture} try:one`, async () => {
+    it(`${fixture} try:one`, async ({ expect }) => {
       let result = await run('try:one', {
         onTestPackage: fixture,
-        args: ['ember-4.8', '--addon', '--cacheName', 'try-one'],
+        args: ['ember-4.8', '--addon', '--cacheName', `${fixture}--try-one`],
       });
 
       let { exitCode, stderr, stdout } = result;
 
-      if (stderr) {
-        console.error(stderr);
-      }
+      expectNoErrorWithin(expect, stderr);
 
       expect(exitCode).toBe(0);
       expect(stdout).toContain('Scenario ember-4.8: SUCCESS');

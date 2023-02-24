@@ -6,6 +6,8 @@ import url from 'node:url';
 import { execa } from 'execa';
 import yn from 'yn';
 
+import type { expect } from 'vitest';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 export const fixturesFolder = path.join(__dirname, 'fixtures');
@@ -19,13 +21,40 @@ interface DirOrFixture {
   args?: string[];
   onTestPackage?: string;
   cmd?: 'test' | 'serve' | 'try:one' | 'try:each';
+  prepare?: (tmpDir: string) => void | Promise<void>;
 }
 
 const VERBOSE = yn(process.env['VERBOSE']);
 
+export function expectNoErrorWithin(_expect: typeof expect, output: string) {
+  if (!output) return;
+
+  _expect(output).not.toContain('ERROR Summary:');
+  _expect(output).not.toContain('has the following unmet peerDependencies');
+  _expect(output).not.toContain('Command failed with exit code 1');
+}
+
+export const logOutput = (stdout: string, stderr: string) => {
+  if (stderr) {
+    console.debug('---------------------------------------------');
+    console.debug('------------------- stdout --------------------------');
+    console.debug(stdout);
+    console.debug('------------------- stderr --------------------------');
+    console.debug(stderr);
+    console.debug('---------------------------------------------');
+  }
+};
+
+export async function overrideFile(overridePath: string, targetPath: string) {
+  let sourceFile = path.join(__dirname, 'override-files', overridePath);
+  let targetFile = path.join(targetPath, overridePath);
+
+  await fs.cp(sourceFile, targetFile, { recursive: true });
+}
+
 export async function run(
   cmd: NonNullable<DirOrFixture['cmd']>,
-  { cwd, onFixture, onTestPackage, args }: DirOrFixture
+  { cwd, prepare, onFixture, onTestPackage, args }: DirOrFixture
 ) {
   if (onTestPackage) {
     let originDirectory = path.join(testPackagesFolder, onTestPackage);
@@ -38,6 +67,10 @@ export async function run(
           `In ${workingDirectory}\n` +
           `Copied from ${originDirectory}`
       );
+    }
+
+    if (prepare) {
+      await prepare(workingDirectory);
     }
 
     return execa('node', [binPath, cmd, ...(args || [])], {
@@ -55,9 +88,8 @@ export async function run(
       );
     }
 
-    return execa('node', [binPath, cmd], {
+    return execa('node', [binPath, cmd, ...(args || [])], {
       cwd: path.join(fixturesFolder, onFixture),
-      stdio: 'inherit',
       reject: false,
     });
   }

@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 import { cosmiconfig } from 'cosmiconfig';
-import { readJsonSync } from 'fs-extra/esm';
+import fse from 'fs-extra';
 
 import { HOME } from './env.js';
 
@@ -92,7 +92,7 @@ async function verifyTemplate(options, template) {
     `${preamble} No package.json was found and was expected to exist at this location: ${packageJsonPath}`
   );
 
-  let packageJson = readJsonSync(packageJsonPath);
+  let packageJson = fse.readJSONSync(packageJsonPath);
 
   assert(
     packageJson?.dependencies[template],

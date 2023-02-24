@@ -2,6 +2,10 @@
   "ts-node": {
     "esm": true
   },
+  "compilerOptions": {
+    "noEmit": true
+  },
   "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
-  "include": ["bin/**/*", "tests/**/*"]
+  "include": ["bin/**/*", "tests/**/*"],
+  "exclude": ["tests/override-files", "tests/fixtures/", "tests/fixture-support/"]
 }

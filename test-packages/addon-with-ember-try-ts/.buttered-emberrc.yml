@@ -1,0 +1,4 @@
+dependencies:
+  # Test dependencies
+  'ember-template-imports': '^3.4.1'
+  # Dependencies used for types do not need to be specified
