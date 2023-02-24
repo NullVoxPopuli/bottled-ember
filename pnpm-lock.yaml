@@ -83,6 +83,7 @@ importers:
       '@glint/template': ^1.0.0-beta.3
       '@tsconfig/ember': ^2.0.0
       '@types/qunit': ^2.19.4
+      '@types/rsvp': ^4.0.4
       ember-qunit: ^6.1.1
       ember-source: ^4.11.0
       ember-template-imports: ^3.4.1
@@ -101,6 +102,7 @@ importers:
       '@glint/template': 1.0.0-beta.3
       '@tsconfig/ember': 2.0.0
       '@types/qunit': 2.19.4
+      '@types/rsvp': 4.0.4
       ember-qunit: 6.1.1_mlvvsdrlpjgn6f7knzknzqohwa
       ember-source: 4.11.0_tjijq7ea5h6eehcyhwtwl5ia5m
       ember-template-imports: 3.4.1
@@ -2496,6 +2498,10 @@ packages:
     dependencies:
       '@types/glob': 8.1.0
       '@types/node': 18.13.0
+    dev: true
+
+  /@types/rsvp/4.0.4:
+    resolution: {integrity: sha512-J3Ol++HCC7/hwZhanDvggFYU/GtxHxE/e7cGRWxR04BF7Tt3TqJZ84BkzQgDxmX0uu8IagiyfmfoUlBACh2Ilg==}
     dev: true
 
   /@types/semver/6.2.3:
